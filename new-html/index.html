@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <title>Netflix Recommendation System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <a class="header__logo" href="javascript:;">
+        <img src="images/logo.png" alt="" />
+      </a>
+
+      <a class="sign__in__btn primary--btn" href="javascript:;"> Group 3 </a>
+    </header>
+
+    <section class="banner__section">
+      <img class="banner" src="images/header-image.jpeg" alt="" />
+      <div class="banner__overlay"></div>
+
+      <div class="banner__content">
+        <h1 class="banner__title">Netflix Recommendation System</h1>
+
+        <div class="membership__input__container">
+          <div class="dropdown-container">
+            <div class="dropdown-toggle" onclick="toggleMovies()">
+              <input
+                type="text"
+                id="searchMovies"
+                class="membership__input"
+                onkeyup="filterMovies()"
+                placeholder="Name of movie or show that you like"
+              />
+              <i class="i-movie fas fa-chevron-down"></i>
+            </div>
+            <div id="dropdown-movie" class="dropdown-content">
+              <div class="dropdown-item-movie" data-value="item1">
+                <img src="images/feature-1.png" alt="Image 1" />
+                <i class="fas fa-check"></i>
+                Item 1
+              </div>
+              <div class="dropdown-item-movie" data-value="item2">
+                <img src="images/feature-2.png" alt="Image 2" />
+                <i class="fas fa-check"></i>
+                Item 2
+              </div>
+              <div class="dropdown-item-movie" data-value="item3">
+                <img src="images/feature-3.png" alt="Image 3" />
+                <i class="fas fa-check"></i>
+                Item 3
+              </div>
+              <div class="dropdown-item-movie" data-value="item4">
+                <img src="images/feature-4.png" alt="Image 4" />
+                <i class="fas fa-check"></i>
+                Item 4
+              </div>
+            </div>
+          </div>
+
+          <div class="dropdown-container">
+            <div class="dropdown-toggle" onclick="toggleLanguages()">
+              <input
+                type="text"
+                id="searchLanguages"
+                class="membership__input"
+                onkeyup="filterMovies()"
+                placeholder="Select languages that you prefer"
+              />
+              <i class="i-language fas fa-chevron-down"></i>
+            </div>
+            <div id="dropdown-language" class="dropdown-content">
+              <div class="dropdown-item-language" data-value="item1">
+                <i class="fas fa-check"></i>
+                Item 1
+              </div>
+              <div class="dropdown-item-language" data-value="item2">
+                <i class="fas fa-check"></i>
+                Item 2
+              </div>
+              <div class="dropdown-item-language" data-value="item3">
+                <i class="fas fa-check"></i>
+                Item 3
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="membership__btn primary--btn" type="button">
+          Get started
+        </button>
+      </div>
+    </section>
+
+    <script>
+      // Movie selection
+      const selectedMovies = [];
+
+      function toggleMovies() {
+        const dropdown = document.getElementById("dropdown-movie");
+        const toggleIcon = document.querySelector(".dropdown-toggle .i-movie");
+        if (dropdown.style.display === "block") {
+          dropdown.style.display = "none";
+          toggleIcon.classList.remove("fa-chevron-up");
+          toggleIcon.classList.add("fa-chevron-down");
+        } else {
+          dropdown.style.display = "block";
+          toggleIcon.classList.remove("fa-chevron-down");
+          toggleIcon.classList.add("fa-chevron-up");
+        }
+      }
+
+      function handleMovieItemClick(item) {
+        const value = item.dataset.value;
+        const index = selectedMovies.indexOf(value);
+
+        if (index !== -1) {
+          selectedMovies.splice(index, 1);
+          item.classList.remove("selected");
+        } else {
+          selectedMovies.push(value);
+          item.classList.add("selected");
+        }
+
+        console.log("Selected Movies:", selectedMovies);
+      }
+
+      function filterMovies() {
+        const input = document.getElementById("searchMovies");
+        const filter = input.value.toLowerCase();
+        const items = document.querySelectorAll(".dropdown-item-movie");
+
+        items.forEach((item) => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(filter)) {
+            item.style.display = "";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      }
+
+      const dropdownMovies = document.querySelectorAll(".dropdown-item-movie");
+      dropdownMovies.forEach((item) => {
+        item.addEventListener("click", () => handleMovieItemClick(item));
+      });
+
+      // Language selection
+      const selectedLanguages = [];
+
+      function toggleLanguages() {
+        const dropdown = document.getElementById("dropdown-language");
+        const toggleIcon = document.querySelector(
+          ".dropdown-toggle .i-language"
+        );
+        if (dropdown.style.display === "block") {
+          dropdown.style.display = "none";
+          toggleIcon.classList.remove("fa-chevron-up");
+          toggleIcon.classList.add("fa-chevron-down");
+        } else {
+          dropdown.style.display = "block";
+          toggleIcon.classList.remove("fa-chevron-down");
+          toggleIcon.classList.add("fa-chevron-up");
+        }
+      }
+
+      function handleLanguageItemClick(item) {
+        const value = item.dataset.value;
+        const index = selectedLanguages.indexOf(value);
+
+        if (index !== -1) {
+          selectedLanguages.splice(index, 1);
+          item.classList.remove("selected");
+        } else {
+          selectedLanguages.push(value);
+          item.classList.add("selected");
+        }
+
+        console.log("Selected Languages:", selectedLanguages);
+      }
+
+      function filterLanguages() {
+        const input = document.getElementById("searchLanguages");
+        const filter = input.value.toLowerCase();
+        const items = document.querySelectorAll(".dropdown-item-language");
+
+        items.forEach((item) => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(filter)) {
+            item.style.display = "";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      }
+
+      const dropdownLanguages = document.querySelectorAll(
+        ".dropdown-item-language"
+      );
+      dropdownLanguages.forEach((item) => {
+        item.addEventListener("click", () => handleLanguageItemClick(item));
+      });
+    </script>
+  </body>
+</html>
